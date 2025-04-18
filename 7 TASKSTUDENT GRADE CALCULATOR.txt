@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int numSubjects;
+    float *grades, sum = 0, average;
+
+    // Get the number of subjects
+    printf("Enter the number of subjects: ");
+    if (scanf("%d", &numSubjects) != 1 || numSubjects <= 0) {
+        printf("❌ Invalid number of subjects. Please enter a positive integer.\n");
+        return 1;
+    }
+
+    // Allocate memory for grades
+    grades = (float *)malloc(numSubjects * sizeof(float));
+    if (grades == NULL) {
+        printf("❌ Memory allocation failed.\n");
+        return 1;
+    }
+
+    // Input grades
+    for (int i = 0; i < numSubjects; i++) {
+        printf("Enter grade for subject %d: ", i + 1);
+        if (scanf("%f", &grades[i]) != 1 || grades[i] < 0 || grades[i] > 100) {
+            printf("❌ Invalid grade. Please enter a number between 0 and 100.\n");
+            free(grades);
+            return 1;
+        }
+        sum += grades[i];
+    }
+
+    // Calculate and display average
+    average = sum / numSubjects;
+    printf("📊 Average Grade: %.2f\n", average);
+
+    // Free allocated memory
+    free(grades);
+
+    return 0;
+}

@@ -1,0 +1,86 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct Item {
+    int id, qty;
+    float price;
+    string name;
+};
+
+vector<Item> inv;
+
+void addItem() {
+    Item it;
+    cout << "ID: ";
+    cin >> it.id;
+    cin.ignore(); // Clear newline before getline()
+    
+    cout << "Name: ";
+    getline(cin, it.name); // Allows for names with spaces
+
+    cout << "Qty: ";
+    cin >> it.qty;
+    cout << "Price: ";
+    cin >> it.price;
+
+    inv.push_back(it);
+    cout << "✅ Item added!\n";
+}
+
+void displayItems() {
+    if (inv.empty()) {
+        cout << "📦 No items in inventory.\n";
+        return;
+    }
+    
+    cout << "\n🔹 Inventory List:\n";
+    for (const auto& it : inv) {
+        cout << "ID: " << it.id << " | Name: " << it.name
+             << " | Qty: " << it.qty << " | Price: $" << it.price << endl;
+    }
+}
+
+void searchItem() {
+    int id;
+    bool found = false;
+
+    cout << "🔍 Search by ID: ";
+    cin >> id;
+
+    for (const auto& it : inv) {
+        if (it.id == id) {
+            cout << "✅ Found: " << it.name
+                 << " | Qty: " << it.qty
+                 << " | Price: $" << it.price << endl;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) cout << "❌ Item not found.\n";
+}
+
+int main() {
+    int ch;
+    do {
+        cout << "\n📦 Inventory Menu\n"
+             << "1. Add Item\n"
+             << "2. Display Items\n"
+             << "3. Search Item\n"
+             << "4. Exit\n"
+             << "Choice: ";
+        cin >> ch;
+
+        switch (ch) {
+            case 1: addItem(); break;
+            case 2: displayItems(); break;
+            case 3: searchItem(); break;
+            case 4: cout << "🔚 Exiting...\n"; break;
+            default: cout << "❌ Invalid choice! Try again.\n";
+        }
+    } while (ch != 4);
+
+    return 0;
+}
